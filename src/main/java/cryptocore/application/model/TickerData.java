@@ -18,5 +18,6 @@ public record TickerData(String eventType,
                          BigDecimal openPrice,
                          BigDecimal highPrice,
                          BigDecimal lowPrice,
-                         BigDecimal priceChange) {
+                         BigDecimal priceChange,
+                         BigDecimal priceChangePercent) {
 }

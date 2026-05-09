@@ -34,4 +34,6 @@ public record BinanceTickerResponse(
         @JsonProperty("l")
         BigDecimal lowPrice,
         @JsonProperty("p")
-        BigDecimal priceChange) { }
+        BigDecimal priceChange,
+        @JsonProperty("P")
+        BigDecimal priceChangePercent) { }
