@@ -14,7 +14,7 @@ import java.util.Optional;
 public final class PriceHistory {
 
     private final Deque<PriceEntry> priceEntries;
-    private static final int WINDOW_MINUTES = 5;
+    private static final int WINDOW_MINUTES = 10;
 
     public PriceHistory (){
         this.priceEntries = new ArrayDeque<>();
