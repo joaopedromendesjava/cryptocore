@@ -33,7 +33,6 @@ public class BinanceTradeHandler implements WebSocketEventHandler {
         } catch (Exception e) {
             log.error("Error processing message ", e);
         }
-        log.info("Message {}", message);
     }
 
     @Override
@@ -44,6 +43,6 @@ public class BinanceTradeHandler implements WebSocketEventHandler {
     @Override
     public void onError(Throwable throwable) {
         log.error("Error in websocket", throwable);
-
+        onOpen();
     }
 }

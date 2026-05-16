@@ -3,11 +3,11 @@ package cryptocore.application.model;
 import lombok.Builder;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Builder
 public record TickerData(String eventType,
-                         LocalDateTime eventTime,
+                         Instant eventTime,
                          String symbol,
                          BigDecimal lastPrice,
                          BigDecimal lastQuantity,

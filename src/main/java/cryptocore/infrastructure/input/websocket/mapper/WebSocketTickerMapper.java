@@ -7,19 +7,18 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @Mapper(componentModel = "spring")
 public interface WebSocketTickerMapper {
 
-    @Mapping(source = "eventTime", target = "eventTime", qualifiedByName = "mapToLocalDate")
+    @Mapping(source = "eventTime", target = "eventTime", qualifiedByName = "mapToInstant")
     TickerData toModel(BinanceTickerResponse response);
 
-    @Named("mapToLocalDate")
-    default LocalDateTime mapLongToLocalDate(Long eventTime){
+    @Named("mapToInstant")
+    default Instant mapLongToLocalDate(Long eventTime){
         return Instant.ofEpochMilli(eventTime)
                 .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
+                .toInstant();
     }
 }

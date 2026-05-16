@@ -18,7 +18,7 @@ public class BinanceWebSocketClient extends WebSocketListener {
     public void connect() {
 
         Request request = new Request.Builder()
-                .url("wss://stream.binance.com:9443/ws/btcusdt@ticker")
+                .url("wss://stream.binance.com:9443/ws/dogeusdt@ticker")
                 .build();
 
         this.webSocket = client.newWebSocket(request, this);

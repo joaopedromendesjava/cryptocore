@@ -1,6 +1,6 @@
 package cryptocore.application.model;
 
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -10,11 +10,15 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Optional;
 
-@NoArgsConstructor
+@Component
 public final class PriceHistory {
 
-    private final Deque<PriceEntry> priceEntries = new ArrayDeque<>();
+    private final Deque<PriceEntry> priceEntries;
     private static final int WINDOW_MINUTES = 5;
+
+    public PriceHistory (){
+        this.priceEntries = new ArrayDeque<>();
+    }
 
     public void add(BigDecimal lastPrice, Instant timestamp) {
         var priceEntry = new PriceEntry(lastPrice, timestamp);
@@ -63,9 +67,11 @@ public final class PriceHistory {
         var last = priceEntries.peekLast().lastPrice();
         var diff = last.subtract(first);
 
-        var division = diff.divide(first, 2, RoundingMode.HALF_EVEN);
+        var division = diff.divide(first, 8, RoundingMode.HALF_EVEN);
 
-        return division.multiply(new BigDecimal(100));
+        var percentage = division.multiply(new BigDecimal("100"));
+
+        return percentage.setScale(4, RoundingMode.HALF_EVEN);
     }
 
     private void removeExpired() {
