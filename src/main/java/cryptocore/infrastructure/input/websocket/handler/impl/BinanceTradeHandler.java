@@ -1,5 +1,6 @@
 package cryptocore.infrastructure.input.websocket.handler.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cryptocore.application.port.PriceUpdatePort;
 import cryptocore.infrastructure.input.websocket.dto.BinanceTickerResponse;
 import cryptocore.infrastructure.input.websocket.handler.WebSocketEventHandler;
@@ -7,7 +8,6 @@ import cryptocore.infrastructure.input.websocket.mapper.WebSocketTickerMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import tools.jackson.databind.ObjectMapper;
 
 @Slf4j
 @Component

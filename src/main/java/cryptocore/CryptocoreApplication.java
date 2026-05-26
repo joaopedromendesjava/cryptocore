@@ -5,8 +5,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @ComponentScan(basePackages = "cryptocore")
+@EnableJpaAuditing
 @SpringBootApplication
 public class CryptocoreApplication implements CommandLineRunner {
 
