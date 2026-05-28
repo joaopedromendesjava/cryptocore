@@ -1,4 +1,4 @@
-package cryptocore.application.service;
+package cryptocore.application.service.impl;
 
 import cryptocore.application.model.AnalysisResult;
 import cryptocore.application.model.PriceHistory;

@@ -1,0 +1,122 @@
+openapi: 3.1.1
+info:
+  title: CryptoCore API
+  version: 1.0.0
+  description: CryptoCore API for communication webhook telegram
+
+tags:
+  - name: Webhook
+    description: Endpoint callback for received update chats in telegram
+
+paths:
+  /webhook/telegram:
+    post:
+      summary: Received updates in chat telegram
+      tags:
+        - Webhook
+      operationId: receiveTelegramUpdate
+      parameters:
+        - name: X-Telegram-Bot-Api-Secret-Token
+          in: header
+          description: secret token validation if request is telegram.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Update'
+      responses:
+        '200':
+          description: successfully received
+        '400':
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid token
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    Update:
+      type: object
+      required:
+        - update_id
+      properties:
+        update_id:
+          type: integer
+          example: 123456789
+        message:
+          $ref: '#/components/schemas/Message'
+        edited_message:
+          $ref: '#/components/schemas/Message'
+        callback_query:
+          type: object
+    Message:
+      type: object
+      properties:
+        message_id:
+          type: integer
+        from:
+          $ref: '#/components/schemas/From'
+        chat:
+          $ref: '#/components/schemas/Chat'
+        date:
+          type: integer
+        text:
+          type: string
+          example: "/start"
+        entities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entity'
+    From:
+      type: object
+      properties:
+        id:
+          type: integer
+        is_bot:
+          type: boolean
+        first_name:
+          type: string
+        last_name:
+          type: string
+        username:
+          type: string
+        language_code:
+          type: string
+    Chat:
+      type: object
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        username:
+          type: string
+        type:
+          type: string
+          enum: [private, group, supergroup, channel]
+    Entity:
+      type: object
+      properties:
+        offset:
+          type: integer
+        length:
+          type: integer
+        type:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string

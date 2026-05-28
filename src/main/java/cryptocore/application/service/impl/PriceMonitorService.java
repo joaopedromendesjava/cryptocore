@@ -1,4 +1,4 @@
-package cryptocore.application.service;
+package cryptocore.application.service.impl;
 
 import cryptocore.application.model.AnalysisResult;
 import cryptocore.application.model.PriceHistory;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 
 @Slf4j
 @Service

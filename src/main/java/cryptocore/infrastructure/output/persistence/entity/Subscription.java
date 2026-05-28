@@ -16,7 +16,6 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "subscriptions")
 public class Subscription {
