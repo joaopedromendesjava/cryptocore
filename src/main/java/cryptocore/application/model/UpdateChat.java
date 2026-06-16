@@ -6,5 +6,7 @@ import lombok.Builder;
 @Builder
 public record UpdateChat(
         @JsonProperty("update_id") Long updateId,
-        Message message) {
+        Message message,
+        @JsonProperty("callback_query")
+        CallbackQuery callbackQuery) {
 }

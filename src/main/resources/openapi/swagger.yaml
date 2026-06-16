@@ -1,4 +1,5 @@
 openapi: 3.1.1
+
 info:
   title: CryptoCore API
   version: 1.0.0
@@ -18,7 +19,7 @@ paths:
       parameters:
         - name: X-Telegram-Bot-Api-Secret-Token
           in: header
-          description: secret token validation if request is telegram.
+          description: Secret token validation if request is telegram.
           required: false
           schema:
             type: string
@@ -30,9 +31,9 @@ paths:
               $ref: '#/components/schemas/Update'
       responses:
         '200':
-          description: successfully received
+          description: Successfully received
         '400':
-          description:
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -56,7 +57,23 @@ components:
         edited_message:
           $ref: '#/components/schemas/Message'
         callback_query:
-          type: object
+          $ref: '#/components/schemas/CallbackQuery'
+    CallbackQuery:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "7938926094060114189"
+        from:
+          $ref: '#/components/schemas/From'
+        message:
+          $ref: '#/components/schemas/Message'
+        chat_instance:
+          type: string
+          example: "1515062041414044796"
+        data:
+          type: string
+          example: "CREATE_ALERT"
     Message:
       type: object
       properties:
@@ -80,6 +97,7 @@ components:
       properties:
         id:
           type: integer
+          example: 1848425272
         is_bot:
           type: boolean
         first_name:
@@ -95,6 +113,7 @@ components:
       properties:
         id:
           type: integer
+          example: 1848425272
         first_name:
           type: string
         last_name:
@@ -103,7 +122,11 @@ components:
           type: string
         type:
           type: string
-          enum: [private, group, supergroup, channel]
+          enum:
+            - private
+            - group
+            - supergroup
+            - channel
     Entity:
       type: object
       properties:

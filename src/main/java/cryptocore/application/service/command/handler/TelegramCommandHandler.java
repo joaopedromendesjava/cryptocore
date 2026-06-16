@@ -1,4 +1,4 @@
-package cryptocore.application.service.handler;
+package cryptocore.application.service.command.handler;
 
 import cryptocore.application.model.UpdateChat;
 import cryptocore.application.model.enums.TelegramCommand;

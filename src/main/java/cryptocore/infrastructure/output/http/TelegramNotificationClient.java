@@ -18,7 +18,7 @@ import java.util.List;
 public class TelegramNotificationClient implements NotificationPort {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final List<String> chats = List.of("1848425272");
+    private final List<Long> chats = List.of(1848425272L);
     private static final String URL_BASE_TELEGRAM = "https://api.telegram.org/bot%s/sendMessage";
 
     @Value("${bot.token}")
@@ -26,15 +26,19 @@ public class TelegramNotificationClient implements NotificationPort {
 
     @Override
     public void sendPriceAlert(String message) {
-        chats.forEach(c -> {sendToChat(c, message);});
+        chats.forEach(c -> sendToChat(
+                TelegramRequestDTO.builder()
+                        .chatId(c)
+                        .text(message)
+                        .parseMode("HTML").build()));
     }
 
-    private void sendToChat(String chatId, String text) {
+    public void sendToChat(TelegramRequestDTO telegramRequestDTO) {
         var httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         try {
             var urlFinal = String.format(URL_BASE_TELEGRAM, botToken);
-            var body = new HttpEntity<>(new TelegramRequestDTO(chatId, text, "HTML"));
+            var body = new HttpEntity<>(telegramRequestDTO);
 
             restTemplate.exchange(urlFinal, HttpMethod.POST, body, String.class);
 

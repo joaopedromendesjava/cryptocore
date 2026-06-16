@@ -14,6 +14,7 @@ import java.time.ZoneId;
 public interface UpdateChatMapper {
 
     @Mapping(target = "message.date", source = "message.date", qualifiedByName = "mapToOffSetDate")
+    @Mapping(target = "callbackQuery.message.date", source = "callbackQuery.message.date", qualifiedByName = "mapToOffSetDate")
     UpdateChat toUpdateMessage(Update update);
 
     @Named("mapToOffSetDate")

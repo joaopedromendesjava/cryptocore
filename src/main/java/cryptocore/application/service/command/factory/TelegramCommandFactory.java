@@ -1,7 +1,7 @@
-package cryptocore.application.service.factory;
+package cryptocore.application.service.command.factory;
 
 import cryptocore.application.model.enums.TelegramCommand;
-import cryptocore.application.service.handler.TelegramCommandHandler;
+import cryptocore.application.service.command.handler.TelegramCommandHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

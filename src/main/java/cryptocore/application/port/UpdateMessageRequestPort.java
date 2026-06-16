@@ -1,7 +1,7 @@
 package cryptocore.application.port;
 
-import cryptocore.application.model.UpdateChat;
+import cryptocore.infrastructure.output.dto.TelegramRequestDTO;
 
 public interface UpdateMessageRequestPort {
-    void updatedMessage(UpdateChat updateChat);
+    void updatedMessage(TelegramRequestDTO telegramRequestDTO);
 }
