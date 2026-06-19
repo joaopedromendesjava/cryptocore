@@ -1,6 +1,7 @@
 package cryptocore.infrastructure.input.http;
 
-import cryptocore.application.service.factory.TelegramCommandFactory;
+import cryptocore.application.service.callbackquery.factory.TelegramCallbackQueryFactory;
+import cryptocore.application.service.command.factory.TelegramCommandFactory;
 import cryptocore.infrastructure.input.mapper.UpdateChatMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 public class UpdateChatControllerImpl implements WebhookApi {
 
     private final TelegramCommandFactory telegramCommandFactory;
+    private final TelegramCallbackQueryFactory telegramCallbackQueryFactory;
     private final UpdateChatMapper updateChatMapper;
 
     @Value("${secret.token}")
@@ -25,16 +27,29 @@ public class UpdateChatControllerImpl implements WebhookApi {
 
     @Override
     public ResponseEntity<Void> receiveTelegramUpdate(Update update, String xTelegramBotApiSecretToken) {
-        if (StringUtils.isBlank(xTelegramBotApiSecretToken) && !xTelegramBotApiSecretToken.equals(secret)){
+        if (StringUtils.isBlank(xTelegramBotApiSecretToken) && !xTelegramBotApiSecretToken.equals(secret)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         var updated = updateChatMapper.toUpdateMessage(update);
-        var text = updated.message().text().trim();
 
-        var commandHandler = telegramCommandFactory.resolve(text);
-        commandHandler.handle(updated);
+        if (updated.message() != null) {
+            var text = updated.message().text().trim();
+            var commandHandler = telegramCommandFactory.resolve(text);
+            commandHandler.handle(updated);
+        } else {
+            var callback = updated.callbackQuery().data().trim();
+            var callbackHandler = telegramCallbackQueryFactory.resolve(extractCallbackType(callback));
+            callbackHandler.handle(updated);
+        }
 
-        log.info("Request received and user created for chatId {}", updated.message().chat().id());
+        //log.info("Request received and user created for chatId {}", updated.message().chat().id());
         return ResponseEntity.ok().build();
+    }
+
+    private String extractCallbackType(String callbackData) {
+        if (callbackData.contains(":")) {
+            return callbackData.split(":")[0];
+        }
+        return callbackData;
     }
 }
